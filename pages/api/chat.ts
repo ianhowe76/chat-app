@@ -9,7 +9,7 @@ const pusher = new Pusher({
   useTLS: true,
 });
 
-const newMessageHandler: NextApiHandler = (req, res) => {
+const newMessageHandler: NextApiHandler = async (req, res) => {
   const { channel, username, message } = req.body;
 
   if (!channel || !username || !message) {
@@ -23,16 +23,24 @@ const newMessageHandler: NextApiHandler = (req, res) => {
     username,
     message,
   };
-  pusher.trigger(channel, "new-message", msgData);
+
+  console.log(
+    "Sending to pusher",
+    process.env.PUSHER_APP_ID,
+    process.env.NEXT_PUBLIC_PUSHER_KEY,
+    process.env.NEXT_PUBLIC_PUSHER_CLUSTER
+  );
+
+  await pusher.trigger(channel, "new-message", msgData);
 
   res.status(200).json(msgData);
 
   return;
 };
 
-const chatHandler: NextApiHandler = (req, res) => {
+const chatHandler: NextApiHandler = async (req, res) => {
   if (req.method === "POST") {
-    newMessageHandler(req, res);
+    await newMessageHandler(req, res);
   } else {
     res.status(200).json({ data: "Get Chat" });
   }
