@@ -24,13 +24,6 @@ const newMessageHandler: NextApiHandler = async (req, res) => {
     message,
   };
 
-  console.log(
-    "Sending to pusher",
-    process.env.PUSHER_APP_ID,
-    process.env.NEXT_PUBLIC_PUSHER_KEY,
-    process.env.NEXT_PUBLIC_PUSHER_CLUSTER
-  );
-
   await pusher.trigger(channel, "new-message", msgData);
 
   res.status(200).json(msgData);

@@ -26,15 +26,18 @@ export const UserBox: React.FC<IUserBoxProps> = ({ username, setUsername }) => {
 
   // Set username
   return (
-    <form className={styles.container} onSubmit={handleNewName}>
-      <input
-        type="text"
-        id="name"
-        value={newName}
-        onChange={(e) => {
-          setNewName(e.currentTarget.value);
-        }}
-      />
-    </form>
+    <div className={styles.container}>
+      <p>Set a user name to get started</p>
+      <form onSubmit={handleNewName}>
+        <input
+          type="text"
+          id="name"
+          value={newName}
+          onChange={(e) => {
+            setNewName(e.currentTarget.value);
+          }}
+        />
+      </form>
+    </div>
   );
 };

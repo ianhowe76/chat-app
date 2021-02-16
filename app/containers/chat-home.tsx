@@ -13,16 +13,20 @@ export const ChatHome: React.FC = () => {
     <div>
       <h2>Chat home</h2>
       <UserBox username={username} setUsername={setUsername} />
-      <h3>Channels</h3>
-      {channels.length === 0 && <div>No Channels yet</div>}
       {showChat && (
-        <ul>
-          {channels.map((channelName) => (
-            <li key={channelName}>
-              <Link href={`/chat/${channelName}`}>{channelName}</Link>
-            </li>
-          ))}
-        </ul>
+        <>
+          <h3>Channels</h3>
+          {channels.length === 0 && <div>No Channels yet</div>}
+          {channels.length > 0 && (
+            <ul>
+              {channels.map((channelName) => (
+                <li key={channelName}>
+                  <Link href={`/chat/${channelName}`}>{channelName}</Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </>
       )}
     </div>
   );

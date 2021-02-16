@@ -1,6 +1,7 @@
 import React from "react";
 import { useChannel, useEvent } from "@harelpls/use-pusher";
 import axios from "axios";
+import { useRouter } from "next/router";
 import { ChatDisplay } from "../components/chat-display/chat-display";
 import { ChatBox } from "../components/chat-box/chat-box";
 import { Container } from "../components/container/container";
@@ -12,6 +13,7 @@ interface IChatRoomProps {
 }
 
 export const ChatRoom: React.FC<IChatRoomProps> = ({ channelName }) => {
+  const router = useRouter();
   const { username } = React.useContext(UserContext);
   const [chatItems, setChatItems] = React.useState<IChatItem[]>([]);
   const channel = useChannel(channelName);
@@ -31,6 +33,12 @@ export const ChatRoom: React.FC<IChatRoomProps> = ({ channelName }) => {
         console.log("send message error", err); // eslint-disable-line no-console
       });
   };
+
+  React.useEffect(() => {
+    if (!username) {
+      router.push("/");
+    }
+  }, [username]);
 
   return (
     <Container full>
