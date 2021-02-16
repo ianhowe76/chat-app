@@ -1,0 +1,20 @@
+.container {
+  padding: 1rem;
+}
+
+.chatItem {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  margin-top: 0.5rem;
+
+  .username {
+    margin-right: 1rem;
+    font-weight: bold;
+    flex: 1;
+  }
+
+  .message {
+    flex: 2;
+  }
+}
