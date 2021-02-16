@@ -1,5 +1,6 @@
 import Head from "next/head";
 import React from "react";
+import { ChatHome } from "../app/containers/chat-home";
 import styles from "../styles/Home.module.scss";
 
 const Home: React.FC = () => {
@@ -13,7 +14,7 @@ const Home: React.FC = () => {
       <main className={styles.main}>
         <h1 className={styles.title}>Welcome to Chat App</h1>
 
-        <p className={styles.description}>Something is comming here</p>
+        <ChatHome />
       </main>
 
       <footer className={styles.footer}>Chat App footer</footer>
