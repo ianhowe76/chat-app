@@ -10,7 +10,10 @@ const pusher = new Pusher({
   useTLS: true,
 });
 
-const chatData: { [channelName: string]: IChatItem[] } = {};
+const chatData: { [channelName: string]: IChatItem[] } = {
+  main: [],
+  topic1: [],
+};
 
 const addChatItem = (channel: string, item: IChatItem): void => {
   const chat = chatData[channel] || [];
