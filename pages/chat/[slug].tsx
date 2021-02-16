@@ -16,7 +16,7 @@ const Chat: React.FC = () => {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>Welcome to this Chat</h1>
+        <h1 className={styles.title}>Welcome to Chat: {channelName}</h1>
 
         <ChatRoom channelName={channelName as string} />
 

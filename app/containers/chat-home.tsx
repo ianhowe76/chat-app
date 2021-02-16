@@ -1,29 +1,36 @@
 import React from "react";
-import Link from "next/link";
+import axios from "axios";
 import { UserContext } from "../context/user-context";
 import { UserBox } from "../components/user-box/user-box";
-
-const channels = ["my-channel"];
+import { ChannelList } from "../components/channel-list/channel-list";
+import { Container } from "../components/container/container";
+import { IChannelListResponse } from "../types/chat";
 
 export const ChatHome: React.FC = () => {
   const { username, setUsername } = React.useContext(UserContext);
+  const [channels, setChannels] = React.useState([]);
   const showChat = Boolean(channels.length > 0 && username);
 
+  React.useEffect(() => {
+    if (username) {
+      // Get list of available channels
+      const url = `${window.location.protocol}//${window.location.host}/api/chat`;
+      axios
+        .get(url)
+        .then(({ data }: { data: IChannelListResponse }) => {
+          setChannels(data.channels);
+        })
+        .catch((err) => {
+          console.log("can't get channel data", err); // eslint-disable-line no-console
+        });
+    }
+  }, [username]);
+
   return (
-    <div>
+    <Container full>
       <h2>Chat home</h2>
       <UserBox username={username} setUsername={setUsername} />
-      <h3>Channels</h3>
-      {channels.length === 0 && <div>No Channels yet</div>}
-      {showChat && (
-        <ul>
-          {channels.map((channelName) => (
-            <li key={channelName}>
-              <Link href={`/chat/${channelName}`}>{channelName}</Link>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+      {showChat && <ChannelList channels={channels} />}
+    </Container>
   );
 };
