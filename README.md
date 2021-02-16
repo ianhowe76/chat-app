@@ -1,5 +1,9 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Summary
+
+This project aims to show a real-time chat app. I have chosen [Pusher](https://pusher.com/) as the platform to enable the real-time chat.
+
 ## Getting Started
 
 First, run the development server:
@@ -12,23 +16,75 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## Pusher Setup
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+Pusher requires the following environment variables to run.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+These can be obtained from pusher by creating a new App under `Channels`
 
-## Learn More
+- `PUSHER_APP_ID`: Pusher `app_id` value
+- `NEXT_PUBLIC_PUSHER_KEY`: Pusher `key` value
+- `PUSHER_SECRET`: Pusher `secret` value
+- `NEXT_PUBLIC_PUSHER_CLUSTER`: Pusher `cluster` value
 
-To learn more about Next.js, take a look at the following resources:
+## API Routes
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The main API route is at `/api/chat`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### POST `/api/chat`
 
-## Deploy on Vercel
+This API gets the new message in the body and then
+1. Sends message on Pusher channel
+2. Saves message in data store
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The body has format:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```
+{
+    "channel": "my-channel",
+    "username": "username",
+    "message": "my message"
+}
+
+```
+
+### GET `/api/chat`
+
+This API returns the list of available channels
+
+The response is in the format
+
+```
+{
+    "channels": [ "channel1", "channel2"]
+}
+```
+
+### GET `/api/chat?channel=channel-name`
+
+This API returns the history of the requested `channel`;
+
+Each item in the response has:
+- timestamp: Time the the message was sent
+- username: User who sent the message
+- message: Message content
+
+Example response
+
+```
+{
+    "history": [
+        {
+            "timestamp": "2021-02-16T04:20:09.751Z",
+            "username": "user",
+            "message": "my message"
+        }
+    ]
+}
+```
+
+## Deployment
+
+The app is deployed to the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme).
+
+The app URL is: https://chat-app-three-lake.vercel.app/
