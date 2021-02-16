@@ -1,6 +1,7 @@
 import { AppProps } from "next/app";
 import React from "react";
 import { PusherProvider } from "@harelpls/use-pusher";
+import { UserContextProvider } from "../app/context/user-context";
 import "../styles/globals.css";
 
 const pusherConfig = {
@@ -9,9 +10,11 @@ const pusherConfig = {
 };
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => (
-  <PusherProvider {...pusherConfig}>
-    <Component {...pageProps} />
-  </PusherProvider>
+  <UserContextProvider>
+    <PusherProvider {...pusherConfig}>
+      <Component {...pageProps} />
+    </PusherProvider>
+  </UserContextProvider>
 );
 
 export default MyApp;
