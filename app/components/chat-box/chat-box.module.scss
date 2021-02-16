@@ -1,0 +1,16 @@
+.container {
+  padding: 1rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+
+  input {
+    margin-right: 1rem;
+    padding: 0.5rem;
+  }
+
+  button {
+    width: 20%;
+    padding: 0.5rem;
+  }
+}
